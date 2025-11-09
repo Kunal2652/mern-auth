@@ -38,13 +38,13 @@ export const register = async (req, res) => {
         const mailOptions = {
             from: process.env.SENDER_EMAIL,
             to: email,
-            subject: 'WELCOME to Agrovaan',
-            text: `Welcome to Agrovaan!
+            subject: 'WELCOME to ',
+            text: `Welcome to !
             Your account has been successfully created with the email id: ${email}.
 
             Best regards,
             Kunal Lohchab
-            Founder & CEO, Agrovaan`
+            Founder & CEO, `
         };
 
         await transporter.sendMail(mailOptions);
