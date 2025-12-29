@@ -7,11 +7,11 @@ import axios from 'axios';
 const Navbar = () => {
     const navigate = useNavigate();
     const { userData, backendUrl, setUserData, setIsLoggedin } = useContext(AppContext);
-    
-    const logout = async()=>{
+
+    const logout = async () => {
         try {
             axios.defaults.withCredentails = true;
-            const {data} = await axios.post(backendUrl+'/api/auth/logout');
+            const { data } = await axios.post(backendUrl + '/api/auth/logout');
             data.success && setIsLoggedin(false);
             data.success && setUserData(false);
             navigate('/')
@@ -20,16 +20,16 @@ const Navbar = () => {
         }
     }
 
-    const sendVerificationOtp = async()=>{
+    const sendVerificationOtp = async () => {
         try {
-            axios.defaults.withCredentials=true;
+            axios.defaults.withCredentials = true;
 
-            const {data} = await axios.post(backendUrl+'/api/auth/send-verify-otp');
-            if(data.success){
+            const { data } = await axios.post(backendUrl + '/api/auth/send-verify-otp');
+            if (data.success) {
                 navigate('/email-verify');
                 toast.success(data.message);
             }
-            else{
+            else {
                 toast.error(data.message);
             }
 
@@ -48,12 +48,46 @@ const Navbar = () => {
                 <div className='w-8 h-8 flex justify-center items-center rounded-full bg-black text-white relative group'>
                     {userData.name[0].toUpperCase()}
                     <div className='absolute hidden group-hover:block top-0 right-0 z-10 text-black rounded pt-10'>
-                        <ul className='list-none m-0 p-2 bg-gray-100 text-sm'>
-                            {! userData.isAccountVerified &&
-                                <li onClick={sendVerificationOtp} className='py-1 px-2 hover:bg-gray-200 cursor-pointer'>Verify Email</li>
-                            }
-                            <li onClick={logout} className='py-1 px-2 hover:bg-gray-200 cursor-pointer pr-10'>Logout</li>
-                        </ul>
+                        <ul className='list-none m-0 p-2 bg-gray-100 text-sm rounded-md shadow'>
+  {!userData.isAccountVerified && (
+    <li
+      onClick={sendVerificationOtp}
+      className='py-1 px-2 hover:bg-gray-200 cursor-pointer'
+    >
+      Verify Email
+    </li>
+  )}
+
+  <li
+    onClick={() => navigate('/profile')}
+    className='py-1 px-2 hover:bg-gray-200 cursor-pointer'
+  >
+    Profile
+  </li>
+
+  {/* 🔔 NEW: PAYMENT LINKS */}
+  <li
+    onClick={() => navigate('/payment')}
+    className='py-1 px-2 hover:bg-gray-200 cursor-pointer'
+  >
+    Pay ₹100
+  </li>
+
+  <li
+    onClick={() => navigate('/payment-status')}
+    className='py-1 px-2 hover:bg-gray-200 cursor-pointer'
+  >
+    Payment Status
+  </li>
+
+  <li
+    onClick={logout}
+    className='py-1 px-2 hover:bg-gray-200 cursor-pointer text-red-600'
+  >
+    Logout
+  </li>
+</ul>
+
 
                     </div>
                 </div>
